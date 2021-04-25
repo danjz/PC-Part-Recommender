@@ -2,6 +2,7 @@
 
 from pcpartpicker import API
 import cgi
+import ml
 
 # api: https://github.com/JonathanVusich/pcpartpicker/
 form = cgi.FieldStorage()
@@ -21,8 +22,10 @@ def User():
 # Must update division - 'time' and 'exp' are not taken into consideration atm must update but not sure expression<---
             time = input("Do you mainly play at night (n) r during the day (d)")
             exp = input("Are you buying PC parts for the first time (y/n)")
-            division(budget, purpose)
+            items = division(budget, purpose)
             count = count + 1
+    # return items, budget, purpose, all_data
+    ml.main(items, budget, purpose)
 
 
 
@@ -90,4 +93,5 @@ def division(budget, purpose):
                 for i in item:
                     # print(i)
                     print(i.brand, i.model, "|" + " Price: ", i.price)
+    return items
 User()
