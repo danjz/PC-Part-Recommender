@@ -2,27 +2,45 @@
 
 from pcpartpicker import API
 import cgi
+<<<<<<< HEAD
 import ml
+=======
+from art import *
+
+>>>>>>> 8660aa431300e966000686f837745bc4a8b3600a
 
 # api: https://github.com/JonathanVusich/pcpartpicker/
 form = cgi.FieldStorage()
 api = API("uk")
 all_data = api.retrieve("cpu", "case", "cpu-cooler", "video-card", "motherboard", "memory", "internal-hard-drive",
                         "power-supply")
+Art=text2art("PC PART PICKER",font='block',chr_ignore=True)
+b = art=text2art("Gaming?")
+c = art=text2art("Editing?")
 
 
+print()
 def User():
     count = 0
-
+    print("(っ◕‿◕)っ Welcome! I am Bob, assisting you today! (｡◕‿◕｡) ")
+    print(" \n(っ◕‿◕)っ We will recommend you the best PC parts to pick from! (ღ˘◡˘ღ)  ")
+    print("\n", b)
+    print(c)
     while count == 0:
         purpose = int(
-            input("Will you be using your system for (1 or 2): \n 1. Gaming \n 2. Content Creation/Video Editing:\n"))
+            input("(っ◕‿◕)っ Will you be using your system for (1 or 2):  \n 1. Gaming (ღ˘◡˘ღ) \n 2. Content Creation/Video Editing ✿◕ ‿ ◕✿ \n"))
         if purpose in {1, 2}:
-            budget = int(input("Please enter your budget (£): "))
+            budget = int(input("(っ◕‿◕)っ Please enter your budget (£) ❀◕ ‿ ◕❀  : "))
 # Must update division - 'time' and 'exp' are not taken into consideration atm must update but not sure expression<---
+<<<<<<< HEAD
             time = input("Do you mainly play at night (n) r during the day (d)")
             exp = input("Are you buying PC parts for the first time (y/n)")
             items = division(budget, purpose)
+=======
+          #  time = input("Do you mainly play at night (n) r during the day (d)")
+         #   exp = input("Are you buying PC parts for the first time (y/n)")
+            division(budget, purpose)
+>>>>>>> 8660aa431300e966000686f837745bc4a8b3600a
             count = count + 1
     # return items, budget, purpose, all_data
     ml.main(items, budget, purpose)
@@ -80,7 +98,7 @@ def division(budget, purpose):
 
     # print(relparts[0])
     if len(relparts) != 0:
-        print("We recommend the following parts:")
+        print( "(ღ˘◡˘ღ) We recommend the following parts:")
 
         for item in relparts:
             index = relparts.index(item)
@@ -88,7 +106,7 @@ def division(budget, purpose):
             print(list(items)[index].upper())
             print("==================================")
             if len(item) == 0:
-                print("We dont have that part right now")
+                print("We don't have that part right now")
             else:
                 for i in item:
                     # print(i)
