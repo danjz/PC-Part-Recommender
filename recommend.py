@@ -56,7 +56,8 @@ def division(budget, purpose):
                     relparts[index].append(i)
                     added+=1
                     counter+=1
-
+    
+    num_of_items = 0
     #print(relparts[0])
     if len(relparts)!=0:
         print("We recommend the following parts:")
@@ -69,7 +70,11 @@ def division(budget, purpose):
                 print("We dont have that part right now")
             else:
                 for i in item:
+                    num_of_items = num_of_items + 1
                     #print(i)
                     print(i.brand, i.model,"|"+" Price: ",i.price)
 
     return items
+    
+    
+
