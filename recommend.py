@@ -7,7 +7,7 @@ def User():
     purpose = int(input("Will you be using your system for (1 or 2): \n 1. Gaming \n 2. Content Creation/Video Editing:\n"))
     budget = int(input("Please enter your budget (£): "))
     items = division(budget, purpose)
-    return items, budget, purpose
+    return items, budget, purpose, all_data
 
 
 def division(budget, purpose):
@@ -56,7 +56,7 @@ def division(budget, purpose):
                     relparts[index].append(i)
                     added+=1
                     counter+=1
-    
+
     num_of_items = 0
     #print(relparts[0])
     if len(relparts)!=0:
@@ -75,6 +75,3 @@ def division(budget, purpose):
                     print(i.brand, i.model,"|"+" Price: ",i.price)
 
     return items
-    
-    
-
