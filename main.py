@@ -1,5 +1,4 @@
 
-
 from pcpartpicker import API
 import cgi
 import ml
@@ -8,14 +7,12 @@ from art import *
 # api: https://github.com/JonathanVusich/pcpartpicker/
 form = cgi.FieldStorage()
 api = API("uk")
-all_data = api.retrieve("cpu", "case", "cpu-cooler", "video-card", "motherboard", "memory", "internal-hard-drive",
-                        "power-supply")
+all_data = api.retrieve("cpu", "case", "cpu-cooler", "video-card", "motherboard", "memory", "internal-hard-drive", "power-supply")
 Art=text2art("PC PART PICKER",font='block',chr_ignore=True)
-b = art=text2art("Gaming?")
-c = art=text2art("Editing?")
-
-
+b = art = text2art("Gaming?")
+c = art = text2art("Editing?")
 print()
+
 def User():
     count = 0
     print("(っ◕‿◕)っ Welcome! I am Bob, assisting you today! (｡◕‿◕｡) ")
@@ -23,20 +20,27 @@ def User():
     print("\n", b)
     print(c)
     while count == 0:
-        purpose = int(
-            input("(っ◕‿◕)っ Will you be using your system for (1 or 2):  \n 1. Gaming (ღ˘◡˘ღ) \n 2. Content Creation/Video Editing ✿◕ ‿ ◕✿ \n"))
-        if purpose in {1, 2}:
-            budget = int(input("(っ◕‿◕)っ Please enter your budget (£) ❀◕ ‿ ◕❀  : "))
+        try:
+            purpose = int(input("(っ◕‿◕)っ Will you be using your system for (1 or 2):  \n 1. Gaming (ღ˘◡˘ღ) \n 2. Content Creation/Video Editing ✿◕ ‿ ◕✿ \n"))
+            if purpose == 1 or purpose == 2:
+                try:
+                    budget = int(input("(っ◕‿◕)っ Please enter your budget (£) ❀◕ ‿ ◕❀  : "))
+                    division(budget, purpose)
+                    count+=1
+                    exit = input("Press ENTER to exit the program")
+                    print()
+                except ValueError:
+                    print("Please enter only numbers")
+                    User()
+        except ValueError:
+            print("Please enter only numbers")
+            User()
+    
 # Must update division - 'time' and 'exp' are not taken into consideration atm must update but not sure expression<---
           #  time = input("Do you mainly play at night (n) r during the day (d)")
          #   exp = input("Are you buying PC parts for the first time (y/n)")
-            division(budget, purpose)
-            count = count + 1
-    ml.main(items, budget, purpose)
 
-
-
-
+    #ml.main(items, budget, purpose)
 
 
 def division(budget, purpose):
@@ -86,6 +90,10 @@ def division(budget, purpose):
                 counter += 1
 
     # print(relparts[0])
+    print_parts(relparts, items, budget, purpose)
+
+def print_parts(relparts, items, budget, purpose):
+    
     if len(relparts) != 0:
         print( "(ღ˘◡˘ღ) We recommend the following parts:")
 
@@ -101,4 +109,6 @@ def division(budget, purpose):
                     # print(i)
                     print(i.brand, i.model, "|" + " Price: ", i.price)
     return items
+    ml.main(items, budget, purpose)
+
 User()
