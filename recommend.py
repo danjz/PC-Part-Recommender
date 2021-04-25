@@ -67,7 +67,7 @@ def division(budget, purpose):
             print(list(items)[index].upper())
             print("==================================")
             if len(item)==0:
-                print("We dont have that part right now")
+                print("(╯°□°) ╯ ¬ ┻━┻ We dont have that part right now")
             else:
                 for i in item:
                     num_of_items = num_of_items + 1
