@@ -21,6 +21,7 @@ def handle_api_data():
 
     data = [cpu, case, cpu_cooler, video_card, motherboard, memory, internal_hard_drive, power_supply]
 
+
     cpu_dataset = []
     case_dataset = []
     cpu_cooler_dataset = []
@@ -30,29 +31,30 @@ def handle_api_data():
     internal_hard_drive_dataset = []
     power_supply_dataset = []
 
+
     for parts in data:
         for key in parts:
             for part in parts[key]:
                 if key == 'cpu':
-                    cpu_dataset.append([part.price, part.brand + " " + part.model])
+                    cpu_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 elif key == 'case':
-                    case_dataset.append([part.price, part.brand + " " + part.model])
+                    case_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 elif key == 'cpu-cooler':
-                    cpu_cooler_dataset.append([part.price, part.brand + " " + part.model])
+                    cpu_cooler_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 elif key == 'video-card':
-                    video_card_dataset.append([part.price, part.brand + " " + part.model])
+                    video_card_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 elif key == 'motherboard':
-                    motherboard_dataset.append([part.price, part.brand + " " + part.model])
+                    motherboard_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 elif key == 'memory':
-                    memory_dataset.append([part.price, part.brand + " " + part.model])
+                    memory_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 elif key == 'internal-hard-drive':
-                    internal_hard_drive_dataset.append([part.price, part.brand + " " + part.model])
+                    internal_hard_drive_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 elif key == 'power-supply':
-                    power_supply_dataset.append([part.price, part.brand + " " + part.model])
+                    power_supply_dataset.append([str(part.price.amount), part.brand + " " + part.model])
                 else:
                     pass
 
-        return cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset
+    return cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset
 
 
 def handle_csv_data():
@@ -150,11 +152,11 @@ def predicts_class(train, test_row, num):
 
 def main():
 
-    cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_csv_data()
-    print(cpu_dataset)
+    # cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_csv_data()
+    # print(cpu_dataset)
 
     cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_api_data()
-    print(cpu_dataset)
+    # print(case_dataset)
 
     # cpu_row = [items['cpu'][0] + items['cpu'][1]]
     # case_row = [items['case'][0] + items['case'][1]]
