@@ -3,23 +3,14 @@ from math import sqrt
 import pandas as pd
 import csv
 import numpy
-import recommend
+from main import *
 
 
 
 def handle_api_data():
-    api = API('uk')
-    cpu = api.retrieve('cpu')
-    case = api.retrieve('case')
-    cpu_cooler = api.retrieve('cpu-cooler')
-    video_card = api.retrieve('video-card')
-    motherboard = api.retrieve('motherboard')
-    memory = api.retrieve('memory')
-    internal_hard_drive = api.retrieve('internal-hard-drive')
-    power_supply = api.retrieve('power-supply')
 
-    data = [cpu, case, cpu_cooler, video_card, motherboard, memory, internal_hard_drive, power_supply]
-
+    data = [all_data["cpu"], all_data["case"], all_data["cpu_cooler"], all_data["video_card"], 
+    all_data["motherboard"], all_data["memory"], all_data["internal_hard_drive"], all_data["power_supply"]]
 
     cpu_dataset = []
     case_dataset = []
