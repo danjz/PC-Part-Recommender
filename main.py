@@ -2,12 +2,8 @@
 
 from pcpartpicker import API
 import cgi
-<<<<<<< HEAD
 import ml
-=======
 from art import *
-
->>>>>>> 8660aa431300e966000686f837745bc4a8b3600a
 
 # api: https://github.com/JonathanVusich/pcpartpicker/
 form = cgi.FieldStorage()
@@ -32,17 +28,10 @@ def User():
         if purpose in {1, 2}:
             budget = int(input("(っ◕‿◕)っ Please enter your budget (£) ❀◕ ‿ ◕❀  : "))
 # Must update division - 'time' and 'exp' are not taken into consideration atm must update but not sure expression<---
-<<<<<<< HEAD
-            time = input("Do you mainly play at night (n) r during the day (d)")
-            exp = input("Are you buying PC parts for the first time (y/n)")
-            items = division(budget, purpose)
-=======
           #  time = input("Do you mainly play at night (n) r during the day (d)")
          #   exp = input("Are you buying PC parts for the first time (y/n)")
             division(budget, purpose)
->>>>>>> 8660aa431300e966000686f837745bc4a8b3600a
             count = count + 1
-    # return items, budget, purpose, all_data
     ml.main(items, budget, purpose)
 
 
