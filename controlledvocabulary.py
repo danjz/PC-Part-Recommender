@@ -1,8 +1,7 @@
 controlledvocabulary = {
-    "PC Components" : ["Processor", "Storage", "Graphics Card", "RAM", 
-                        "Motherboard","Fan", "Wireless Network Card", "Power Supply"],
+    "PC Components" : ["cpu", "internal-hard-drive", "video-card", "memory", 
+                        "motherboard","cpu-cooler", "wireless-network-card", "power-supply"],
 
-    "PC Peripheries" : ["Case","Monitor"],
+    "PC Peripheries" : ["case","monitor", "keyboard","mouse"],
 
-    "Price" : ["Low", "Medium", "High"]
 }  
