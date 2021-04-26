@@ -1,46 +1,60 @@
-
 from pcpartpicker import API
 import cgi
-import ml
+#import ml
 from art import *
 
 # api: https://github.com/JonathanVusich/pcpartpicker/
 form = cgi.FieldStorage()
 api = API("uk")
-all_data = api.retrieve("cpu", "case", "cpu-cooler", "video-card", "motherboard", "memory", "internal-hard-drive", "power-supply")
-Art=text2art("PC PART PICKER",font='block',chr_ignore=True)
-b = art = text2art("Gaming?")
-c = art = text2art("Editing?")
+all_data = api.retrieve("cpu", "case", "cpu-cooler", "video-card", "motherboard", "memory", "internal-hard-drive",
+                        "power-supply")
+Art = text2art("PC PART PICKER", font='block', chr_ignore=True)
+b =  text2art("Gaming?")
+c = text2art("Editing?")
+art_8 = art("cute face 9")  # left hand
+art_7=art("gimme") # right hand
+art_5=art("cute face5")
+art_2=art("cute face") # oh rly
+art_6=art("french kiss")
+
 print()
 
 def User():
     count = 0
-    print("(っ◕‿◕)っ Welcome! I am Bob, assisting you today! (｡◕‿◕｡) ")
-    print(" \n(っ◕‿◕)っ We will recommend you the best PC parts to pick from! (ღ˘◡˘ღ)  ")
+    print(art_7, " Welcome! I am Bob, assisting you today!  ", art_8)
+    print(" \n",art_5, " We will recommend you the best PC parts to pick from! ", art_8)
     print("\n", b)
     print(c)
     while count == 0:
         try:
-            purpose = int(input("(っ◕‿◕)っ Will you be using your system for (1 or 2):  \n 1. Gaming (ღ˘◡˘ღ) \n 2. Content Creation/Video Editing ✿◕ ‿ ◕✿ \n"))
+            print(art_5)
+            purpose = int(input(
+                " Will you be using your system for (1 or 2):  \n 1. Gaming  \n 2. Content Creation/Video Editing  \n"))
             if purpose == 1 or purpose == 2:
                 try:
-                    budget = int(input("(っ◕‿◕)っ Please enter your budget (£) ❀◕ ‿ ◕❀  : "))
+                    print()
+                    print(art_7)
+                    budget = int(input("Please enter your budget (£)   : "))
                     division(budget, purpose)
-                    count+=1
+                    count += 1
                     exit = input("Press ENTER to exit the program")
+                    print(art_2)
                     print()
                 except ValueError:
                     print("Please enter only numbers")
+                    print(art_2)
                     User()
         except ValueError:
             print("Please enter only numbers")
+            print(art_2)
             User()
-    
-# Must update division - 'time' and 'exp' are not taken into consideration atm must update but not sure expression<---
-          #  time = input("Do you mainly play at night (n) r during the day (d)")
-         #   exp = input("Are you buying PC parts for the first time (y/n)")
 
-    #ml.main(items, budget, purpose)
+
+# Must update division - 'time' and 'exp' are not taken into consideration atm must update but not sure expression<---
+#  time = input("Do you mainly play at night (n) r during the day (d)")
+#   exp = input("Are you buying PC parts for the first time (y/n)")
+
+# ml.main(items, budget, purpose)
 
 
 def division(budget, purpose):
@@ -92,10 +106,10 @@ def division(budget, purpose):
     # print(relparts[0])
     print_parts(relparts, items, budget, purpose)
 
+
 def print_parts(relparts, items, budget, purpose):
-    
     if len(relparts) != 0:
-        print( "(ღ˘◡˘ღ) We recommend the following parts:")
+        print("(ღ˘◡˘ღ) We recommend the following parts:")
 
         for item in relparts:
             index = relparts.index(item)
@@ -110,5 +124,6 @@ def print_parts(relparts, items, budget, purpose):
                     print(i.brand, i.model, "|" + " Price: ", i.price)
     return items
     ml.main(items, budget, purpose)
+
 
 User()
