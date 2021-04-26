@@ -3,23 +3,14 @@ from math import sqrt
 import pandas as pd
 import csv
 import numpy
-import recommend
+from main import *
 
-# items, budget, purpose, all_data = recommend.User()
 
 
 def handle_api_data():
-    api = API('uk')
-    cpu = api.retrieve('cpu')
-    case = api.retrieve('case')
-    cpu_cooler = api.retrieve('cpu-cooler')
-    video_card = api.retrieve('video-card')
-    motherboard = api.retrieve('motherboard')
-    memory = api.retrieve('memory')
-    internal_hard_drive = api.retrieve('internal-hard-drive')
-    power_supply = api.retrieve('power-supply')
 
-    data = [cpu, case, cpu_cooler, video_card, motherboard, memory, internal_hard_drive, power_supply]
+    data = [all_data["cpu"], all_data["case"], all_data["cpu_cooler"], all_data["video_card"], 
+    all_data["motherboard"], all_data["memory"], all_data["internal_hard_drive"], all_data["power_supply"]]
 
     cpu_dataset = []
     case_dataset = []
@@ -30,29 +21,33 @@ def handle_api_data():
     internal_hard_drive_dataset = []
     power_supply_dataset = []
 
+
     for parts in data:
         for key in parts:
             for part in parts[key]:
-                if key == 'cpu':
-                    cpu_dataset.append([part.price, part.brand + " " + part.model])
-                elif key == 'case':
-                    case_dataset.append([part.price, part.brand + " " + part.model])
-                elif key == 'cpu-cooler':
-                    cpu_cooler_dataset.append([part.price, part.brand + " " + part.model])
-                elif key == 'video-card':
-                    video_card_dataset.append([part.price, part.brand + " " + part.model])
-                elif key == 'motherboard':
-                    motherboard_dataset.append([part.price, part.brand + " " + part.model])
-                elif key == 'memory':
-                    memory_dataset.append([part.price, part.brand + " " + part.model])
-                elif key == 'internal-hard-drive':
-                    internal_hard_drive_dataset.append([part.price, part.brand + " " + part.model])
-                elif key == 'power-supply':
-                    power_supply_dataset.append([part.price, part.brand + " " + part.model])
+                if not('0.00' in str(part.price)):
+                    if key == 'cpu':
+                            cpu_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    elif key == 'case':
+                        case_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    elif key == 'cpu-cooler':
+                        cpu_cooler_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    elif key == 'video-card':
+                        video_card_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    elif key == 'motherboard':
+                        motherboard_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    elif key == 'memory':
+                        memory_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    elif key == 'internal-hard-drive':
+                        internal_hard_drive_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    elif key == 'power-supply':
+                        power_supply_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+                    else:
+                        pass
                 else:
                     pass
 
-        return cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset
+    return cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset
 
 
 def handle_csv_data():
@@ -148,42 +143,46 @@ def predicts_class(train, test_row, num):
     return prediction
 
 
-def main():
+def main(items, budget, purpose):
 
-    cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_csv_data()
-    print(cpu_dataset)
+    # cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_csv_data()
 
     cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_api_data()
-    print(cpu_dataset)
 
-    # cpu_row = [items['cpu'][0] + items['cpu'][1]]
-    # case_row = [items['case'][0] + items['case'][1]]
-    # cpu_cooler_row = [items['cpu-cooler'][0] + items['cpu-cooler'][1]]
-    # video_card_row = [items['video-card'][0] + items['video-card'][1]]
-    # motherboard_row = [items['motherboard'][0] + items['motherboard'][1]]
-    # memory_row = [items['memory'][0] + items['memory'][1]]
-    # internal_hard_drive_row = [items['internal-hard-drive'][0] + items['internal-hard-drive'][1]]
-    # power_supply_row = [items['power-supply'][0] + items['power-supply'][1]]
-    # print(cpu_dataset[2])
-    # print(cpu_row)
+    cpu_row = [str(items['cpu'][0] + items['cpu'][1])]
+    case_row = [str(items['case'][0] + items['case'][1])]
+    cpu_cooler_row = [str(items['cpu-cooler'][0] + items['cpu-cooler'][1])]
+    video_card_row = [str(items['video-card'][0] + items['video-card'][1])]
+    motherboard_row = [str(items['motherboard'][0] + items['motherboard'][1])]
+    memory_row = [str(items['memory'][0] + items['memory'][1])]
+    internal_hard_drive_row = [str(items['internal-hard-drive'][0] + items['internal-hard-drive'][1])]
+    power_supply_row = [str(items['power-supply'][0] + items['power-supply'][1])]
 
-    cpu_prediction = predicts_class(cpu_dataset, cpu_dataset[0], 3)
-    case_prediction = predicts_class(case_dataset, case_dataset[0], 3)
-    cpu_cooler_prediction = predicts_class(cpu_cooler_dataset, cpu_cooler_dataset[0], 3)
-    video_card_prediction = predicts_class(video_card_dataset, video_card_dataset[0], 3)
-    motherboard_prediction = predicts_class(motherboard_dataset, motherboard_dataset[0], 3)
-    memory_prediction = predicts_class(memory_dataset, memory_dataset[0], 3)
-    internal_hard_drive_prediction = predicts_class(internal_hard_drive_dataset, internal_hard_drive_dataset[0], 3)
-    power_supply_prediction = predicts_class(power_supply_dataset, power_supply_dataset[0], 3)
+    cpu_prediction = predicts_class(cpu_dataset, cpu_row, 3)
+    case_prediction = predicts_class(case_dataset, case_row, 3)
+    cpu_cooler_prediction = predicts_class(cpu_cooler_dataset, cpu_cooler_row, 3)
+    video_card_prediction = predicts_class(video_card_dataset, video_card_row, 3)
+    motherboard_prediction = predicts_class(motherboard_dataset, motherboard_row, 3)
+    memory_prediction = predicts_class(memory_dataset, memory_row, 3)
+    internal_hard_drive_prediction = predicts_class(internal_hard_drive_dataset, internal_hard_drive_row, 3)
+    power_supply_prediction = predicts_class(power_supply_dataset, power_supply_row, 3)
 
-    print("Expected cpu: {}, Got: {} ".format(cpu_dataset[0][0], cpu_prediction))
-    print("Expected case: {}, Got: {} ".format(case_dataset[0][0], case_prediction))
-    print("Expected cpu_cooler: {}, Got: {} ".format(cpu_cooler_dataset[0][0], cpu_cooler_prediction))
-    print("Expected video_card: {}, Got: {} ".format(video_card_dataset[0][0], video_card_prediction))
-    print("Expected motherboard: {}, Got: {} ".format(motherboard_dataset[0][0], motherboard_prediction))
-    print("Expected memory: {}, Got: {} ".format(memory_dataset[0][0], memory_prediction))
-    print("Expected internal_hard_drive: {}, Got: {} ".format(internal_hard_drive_dataset[0][0], internal_hard_drive_prediction))
-    print("Expected power_supply: {}, Got: {} ".format(power_supply_dataset[0][0], power_supply_prediction))
+    print("Expected cpu: {}, Got: {} ".format(cpu_row[0], cpu_prediction))
+    print("Expected case: {}, Got: {} ".format(case_row[0], case_prediction))
+    print("Expected cpu_cooler: {}, Got: {} ".format(cpu_cooler_row[0], cpu_cooler_prediction))
+    print("Expected video_card: {}, Got: {} ".format(video_card_row[0], video_card_prediction))
+    print("Expected motherboard: {}, Got: {} ".format(motherboard_row[0], motherboard_prediction))
+    print("Expected memory: {}, Got: {} ".format(memory_row[0], memory_prediction))
+    print("Expected internal_hard_drive: {}, Got: {} ".format(internal_hard_drive_row[0], internal_hard_drive_prediction))
+    print("Expected power_supply: {}, Got: {} ".format(power_supply_row[0], power_supply_prediction))
 
+    total = round(float(cpu_prediction) +
+                  float(case_prediction) +
+                  float(cpu_cooler_prediction) +
+                  float(video_card_prediction) +
+                  float(motherboard_prediction) +
+                  float(memory_prediction) +
+                  float(internal_hard_drive_prediction) +
+                  float(power_supply_prediction), 2)
 
-main()
+    print('Total: {}'.format(total))

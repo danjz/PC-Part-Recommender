@@ -1,5 +1,3 @@
-
-
 from pcpartpicker import API
 from controlledvocabulary import controlledvocabulary
 import cgi
