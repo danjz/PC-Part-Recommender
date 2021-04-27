@@ -3,14 +3,11 @@ from math import sqrt
 import pandas as pd
 import csv
 import numpy
-from main import *
+# from main import *
 
 
 
-def handle_api_data():
-
-    data = [all_data["cpu"], all_data["case"], all_data["cpu_cooler"], all_data["video_card"], 
-    all_data["motherboard"], all_data["memory"], all_data["internal_hard_drive"], all_data["power_supply"]]
+def handle_api_data(all_data):
 
     cpu_dataset = []
     case_dataset = []
@@ -19,90 +16,205 @@ def handle_api_data():
     motherboard_dataset = []
     memory_dataset = []
     internal_hard_drive_dataset = []
+    wireless_network_card_dataset = []
     power_supply_dataset = []
+    monitor_dataset = []
+    keyboard_dataset = []
+    mouse_dataset = []
 
 
-    for parts in data:
-        for key in parts:
-            for part in parts[key]:
-                if not('0.00' in str(part.price)):
-                    if key == 'cpu':
-                            cpu_dataset.append([str(part.price.amount), part.brand + " " + part.model])
-                    elif key == 'case':
-                        case_dataset.append([str(part.price.amount), part.brand + " " + part.model])
-                    elif key == 'cpu-cooler':
-                        cpu_cooler_dataset.append([str(part.price.amount), part.brand + " " + part.model])
-                    elif key == 'video-card':
-                        video_card_dataset.append([str(part.price.amount), part.brand + " " + part.model])
-                    elif key == 'motherboard':
-                        motherboard_dataset.append([str(part.price.amount), part.brand + " " + part.model])
-                    elif key == 'memory':
-                        memory_dataset.append([str(part.price.amount), part.brand + " " + part.model])
-                    elif key == 'internal-hard-drive':
-                        internal_hard_drive_dataset.append([str(part.price.amount), part.brand + " " + part.model])
-                    elif key == 'power-supply':
-                        power_supply_dataset.append([str(part.price.amount), part.brand + " " + part.model])
+
+    for key in all_data:
+        for part in all_data[key]:
+            dataset = []
+            if '0.00' in str(part.price) or part.price == None:
+                pass
+            else:
+                if key == 'cpu':
+
+                    # for Gaming
+                    if part.integrated_graphics != None:
+                        dataset.append(1)
+                    else:
+                        dataset.append(0)
+                    # time of use and experience would have no impact on the cpu
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    cpu_dataset.append(dataset)
+
+                elif key == 'case':
+
+                    # time and tpye of use and experience would have no impact on the case, it is personal preference
+                    dataset.append(None)
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    case_dataset.append(dataset)
+
+                elif key == 'cpu-cooler':
+
+                    # gaming or video editing would have no impact on the cpu_cooler
+                    dataset.append(None)
+                    # time of use
+                    if part.decibels != None:
+                        if part.decibels.max != None:
+                            dataset.append(part.decibels.max)
+                        else:
+                            dataset.append(part.decibels.default)
                     else:
                         pass
+                    # experience would have no impact on the cpu cooler
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    cpu_cooler_dataset.append(dataset)
+
+                elif key == 'video-card':
+
+                    # for video is more useful as it stores image data
+                    if part.vram.total != None and part.vram.total / 1000000000 > 6:
+                        dataset.append(0)
+                    else:
+                        dataset.append(1)
+                    # time of use and experience would have no impact on the video card
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    video_card_dataset.append(dataset)
+
+                elif key == 'motherboard':
+
+                    # for Gaming
+                    if part.max_ram.total != None and part.max_ram.total / 1000000000 > 6:
+                        dataset.append(1)
+                    else:
+                        dataset.append(0)
+                    # time of use and experience would have no impact on the motherboard
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    motherboard_dataset.append(dataset)
+
+                elif key == 'memory':
+
+                    # for Gaming
+                    if part.module_size.total != None and part.module_size.total / 1000000000 > 6:
+                        dataset.append(1)
+                    else:
+                        dataset.append(0)
+                    # time of use and experience would have no impact on the memory
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    memory_dataset.append(dataset)
+
+                elif key == 'internal-hard-drive':
+
+                    # for Content Creation and video editing
+                    if part.capacity.total != None and part.capacity.total /1000000000000 > 0.5:
+                        dataset.append(0)
+                    else:
+                        dataset.append(1)
+                    # time of use and experience would have no impact on the internal_hard_drive
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    internal_hard_drive_dataset.append(dataset)
+
+                elif key == 'wireless-network-card':
+
+                    # time, mode of use and experience would have no impact on the power_supply
+                    dataset.append(None)
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    wireless_network_card_dataset.append(dataset)
+
+
+                elif key == 'power-supply':
+
+                    # time, mode of use and experience would have no impact on the power_supply
+                    dataset.append(None)
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    power_supply_dataset.append(dataset)
+
+                elif key == 'monitor':
+
+                    # time, mode of use and experience would have no impact on the monitor
+                    dataset.append(None)
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    monitor_dataset.append(dataset)
+
+                elif key == 'keyboard':
+
+                    # mode of use would have no impact on the keyboard
+                    dataset.append(None)
+                    # time of use would impact the keyboard as a backlit one would be needed for the night
+                    if part.backlight != None:
+                        dataset.append(1)
+                    else:
+                        dataset.append(0)
+                    # experience would have no impact on the keyboard
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    keyboard_dataset.append(dataset)
+
+                elif key == 'mouse':
+
+                    # for gaming
+                    if part.max_dpi != None and part.max_dpi > 400 and part.max_dpi < 1600:
+                        dataset.append(1)
+                    else:
+                        dataset.append(0)
+                    # time of use and experience would have no impact on the mouse
+                    dataset.append(None)
+                    dataset.append(None)
+                    # add price and component name
+                    dataset.append(str(part.price.amount))
+                    dataset.append(part.brand + " " + part.model)
+
+                    mouse_dataset.append(dataset)
                 else:
                     pass
 
-    return cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset
-
-
-def handle_csv_data():
-
-    cpu = pd.read_csv('cpu.csv', sep = ',', header = None)
-
-    case = pd.read_csv('case.csv', sep = ',', header = None)
-
-    cpu_cooler = pd.read_csv('cpu_cooler.csv', sep = ',', header = None)
-
-    video_card = pd.read_csv('video_card.csv', sep = ',', header = None)
-
-    motherboard = pd.read_csv('motherboard.csv', sep = ',', header = None)
-
-    memory = pd.read_csv('memory.csv', sep = ',', header = None)
-
-    internal_hard_drive = pd.read_csv('internal_hard_drive.csv', sep = ',', header = None)
-
-    power_supply = pd.read_csv('power_supply.csv', sep = ',', header = None)
-
-    cpu_dataset = []
-    case_dataset = []
-    cpu_cooler_dataset = []
-    video_card_dataset = []
-    motherboard_dataset = []
-    memory_dataset = []
-    internal_hard_drive_dataset = []
-    power_supply_dataset = []
-
-    for row in range(len(cpu)):
-        cpu_dataset.append([cpu.loc[row][8], cpu.loc[row][0] + " " + cpu.loc[row][1]])
-
-    for row in range(len(case)):
-        case_dataset.append([case.loc[row][8], case.loc[row][0] + " " + case.loc[row][1]])
-
-    for row in range(len(cpu_cooler)):
-        cpu_cooler_dataset.append([cpu_cooler.loc[row][9], cpu_cooler.loc[row][0] + " " + cpu_cooler.loc[row][1]])
-
-    for row in range(len(video_card)):
-        video_card_dataset.append([video_card.loc[row][8], video_card.loc[row][0] + " " + video_card.loc[row][1]])
-
-    for row in range(len(motherboard)):
-        motherboard_dataset.append([motherboard.loc[row][7], motherboard.loc[row][0] + " " + motherboard.loc[row][1]])
-
-    for row in range(len(memory)):
-        memory_dataset.append([memory.loc[row][11], memory.loc[row][0] + " " + memory.loc[row][1]])
-
-    for row in range(len(internal_hard_drive)):
-        internal_hard_drive_dataset.append([internal_hard_drive.loc[row][9], internal_hard_drive.loc[row][0] + " " + internal_hard_drive.loc[row][1]])
-
-    for row in range(len(power_supply)):
-        power_supply_dataset.append([power_supply.loc[row][7], power_supply.loc[row][0] + " " + power_supply.loc[row][1]])
-
-    return cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset
-
+    return cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, wireless_network_card_dataset, power_supply_dataset, monitor_dataset, keyboard_dataset, mouse_dataset
 
 
 def calculate_distance(row1, row2):
@@ -138,25 +250,40 @@ def find_neighbors(train, test_row, num):
 
 def predicts_class(train, test_row, num):
     neighbors = find_neighbors(train, test_row, num)
-    output_vals = [row[-2] for row in neighbors]
-    prediction = max(set(output_vals), key=output_vals.count)
+    for row in neighbors:
+        output_vals = [row[-1], row[-2]]
+    name_prediction = max(set(output_vals), key=output_vals[0].count)
+    price_prediction = max(set(output_vals), key=output_vals[1].count)
+    prediction = [name_prediction, price_prediction]
+
     return prediction
 
 
-def main(items, budget, purpose):
+def main(items, purpose, time, exp, all_data):
 
-    # cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_csv_data()
+    cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, wireless_network_card_dataset, power_supply_dataset, monitor_dataset, keyboard_dataset, mouse_dataset = handle_api_data(all_data)
 
-    cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, power_supply_dataset = handle_api_data()
+    if purpose == 1:
+        purpose = 1
+    else:
+        purpose = 0
 
-    cpu_row = [str(items['cpu'][0] + items['cpu'][1])]
-    case_row = [str(items['case'][0] + items['case'][1])]
-    cpu_cooler_row = [str(items['cpu-cooler'][0] + items['cpu-cooler'][1])]
-    video_card_row = [str(items['video-card'][0] + items['video-card'][1])]
-    motherboard_row = [str(items['motherboard'][0] + items['motherboard'][1])]
-    memory_row = [str(items['memory'][0] + items['memory'][1])]
-    internal_hard_drive_row = [str(items['internal-hard-drive'][0] + items['internal-hard-drive'][1])]
-    power_supply_row = [str(items['power-supply'][0] + items['power-supply'][1])]
+    if time == 'n':
+        time = 1
+    else:
+        time = 0
+    cpu_row = [str(items['cpu'][0] + items['cpu'][1]), purpose, None, None]
+    case_row = [str(items['case'][0] + items['case'][1]), None, None, None]
+    cpu_cooler_row = [str(items['cpu-cooler'][0] + items['cpu-cooler'][1]), None, time, None]
+    video_card_row = [str(items['video-card'][0] + items['video-card'][1]), purpose, None, None]
+    motherboard_row = [str(items['motherboard'][0] + items['motherboard'][1]), purpose, None, None]
+    memory_row = [str(items['memory'][0] + items['memory'][1]), purpose, None, None]
+    internal_hard_drive_row = [str(items['internal-hard-drive'][0] + items['internal-hard-drive'][1]), purpose, None, None]
+    wireless_network_card_row = [str(items['wireless-network-card'][0] + items['wireless-network-card'][1]), None, None, None]
+    power_supply_row = [str(items['power-supply'][0] + items['power-supply'][1]), None, None, None]
+    monitor_row = [str(items['monitor'][0] + items['monitor'][1]), None, None, None]
+    keyboard_row = [str(items['keyboard'][0] + items['keyboard'][1]), None, time, None]
+    mouse_row = [str(items['mouse'][0] + items['mouse'][1]), purpose, None, None]
 
     cpu_prediction = predicts_class(cpu_dataset, cpu_row, 3)
     case_prediction = predicts_class(case_dataset, case_row, 3)
@@ -165,24 +292,39 @@ def main(items, budget, purpose):
     motherboard_prediction = predicts_class(motherboard_dataset, motherboard_row, 3)
     memory_prediction = predicts_class(memory_dataset, memory_row, 3)
     internal_hard_drive_prediction = predicts_class(internal_hard_drive_dataset, internal_hard_drive_row, 3)
+    wireless_network_card_prediction = predicts_class(wireless_network_card_dataset, wireless_network_card_row, 3)
     power_supply_prediction = predicts_class(power_supply_dataset, power_supply_row, 3)
+    monitor_prediction = predicts_class(monitor_dataset, monitor_row, 3)
+    keyboard_prediction = predicts_class(keyboard_dataset, keyboard_row, 3)
+    mouse_prediction = predicts_class(mouse_dataset, mouse_row, 3)
 
-    print("Expected cpu: {}, Got: {} ".format(cpu_row[0], cpu_prediction))
-    print("Expected case: {}, Got: {} ".format(case_row[0], case_prediction))
-    print("Expected cpu_cooler: {}, Got: {} ".format(cpu_cooler_row[0], cpu_cooler_prediction))
-    print("Expected video_card: {}, Got: {} ".format(video_card_row[0], video_card_prediction))
-    print("Expected motherboard: {}, Got: {} ".format(motherboard_row[0], motherboard_prediction))
-    print("Expected memory: {}, Got: {} ".format(memory_row[0], memory_prediction))
-    print("Expected internal_hard_drive: {}, Got: {} ".format(internal_hard_drive_row[0], internal_hard_drive_prediction))
-    print("Expected power_supply: {}, Got: {} ".format(power_supply_row[0], power_supply_prediction))
+    # print("Expected cpu: GB£{}, Got: GB£{} ".format(cpu_row[0], cpu_prediction))
+    # print("Expected case: GB£{}, Got: GB£{} ".format(case_row[0], case_prediction))
+    # print("Expected cpu_cooler: GB£{}, Got: GB£{} ".format(cpu_cooler_row[0], cpu_cooler_prediction))
+    # print("Expected video_card: GB£{}, Got: GB£{} ".format(video_card_row[0], video_card_prediction))
+    # print("Expected motherboard: GB£{}, Got: GB£{} ".format(motherboard_row[0], motherboard_prediction))
+    # print("Expected memory: GB£{}, Got: GB£{} ".format(memory_row[0], memory_prediction))
+    # print("Expected internal_hard_drive: GB£{}, Got: GB£{} ".format(internal_hard_drive_row[0], internal_hard_drive_prediction))
+    # print("Expected wireless_network_card: GB£{}, Got: GB£{} ".format(wireless_network_card_row[0], wireless_network_card_prediction))
+    # print("Expected power_supply: GB£{}, Got: GB£{} ".format(power_supply_row[0], power_supply_prediction))
+    # print("Expected monitor: GB£{}, Got: GB£{} ".format(monitor_row[0], monitor_prediction))
+    # print("Expected keyboard: GB£{}, Got: GB£{} ".format(keyboard_row[0], keyboard_prediction))
+    # print("Expected mouse: GB£{}, Got: GB£{} ".format(mouse_row[0], mouse_prediction))
+    #
+    # total = round(float(cpu_prediction[0]) +
+    #               float(case_prediction[0]) +
+    #               float(cpu_cooler_prediction[0]) +
+    #               float(video_card_prediction[0]) +
+    #               float(motherboard_prediction[0]) +
+    #               float(memory_prediction[0]) +
+    #               float(internal_hard_drive_prediction[0]) +
+    #               float(wireless_network_card_prediction[0]) +
+    #               float(power_supply_prediction[0]) +
+    #               float(monitor_prediction[0]) +
+    #               float(keyboard_prediction[0]) +
+    #               float(mouse_prediction[0]), 2)
+    #
+    # print('Total: GB£{}'.format(total))
 
-    total = round(float(cpu_prediction) +
-                  float(case_prediction) +
-                  float(cpu_cooler_prediction) +
-                  float(video_card_prediction) +
-                  float(motherboard_prediction) +
-                  float(memory_prediction) +
-                  float(internal_hard_drive_prediction) +
-                  float(power_supply_prediction), 2)
-
-    print('Total: {}'.format(total))
+    recommendation = [cpu_prediction, case_prediction, cpu_cooler_prediction, video_card_prediction, motherboard_prediction, memory_prediction, internal_hard_drive_prediction, wireless_network_card_prediction, power_supply_prediction, monitor_prediction, keyboard_prediction, mouse_prediction]
+    return recommendation

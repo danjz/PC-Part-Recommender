@@ -2,6 +2,7 @@ from pcpartpicker import API
 from controlledvocabulary import controlledvocabulary
 import cgi
 from art import *
+import ml
 
 # api: https://github.com/JonathanVusich/pcpartpicker/
 form = cgi.FieldStorage()
@@ -41,9 +42,9 @@ def User():
                     exp = input("Are you buying PC parts for the first time (y/n)")
                     filters = input("Would you like to filter your search? (y/n)") #start of controlled vocab integration
                     if (filters == 'y'):
-                        filter(budget, purpose)
+                        filter(budget, purpose, time, exp)
                     else:
-                        division(budget, purpose,3)          
+                        division(budget, purpose, time, exp, 3)
                     count = count + 1
                 except ValueError:
                     print("Please enter only numbers")
@@ -57,7 +58,7 @@ def User():
 
 
 #controlled vocabulary functionality
-def filter(budget, purpose):
+def filter(budget, purpose, time, exp):
     res = []
     print("The possible filters are (type number if you want that filter): ")
     print("1. PC Components")
@@ -65,7 +66,7 @@ def filter(budget, purpose):
     print("Type n if you don't want filters.")
     fin = input()
     if(fin == 'n'):
-        division(budget,purpose,3)
+        division(budget, purpose, time, exp, 3)
     else:
         fin = fin.strip()
         for i in fin:
@@ -74,20 +75,20 @@ def filter(budget, purpose):
         return
     elif(len(res) == 1):
         if(res[0] == 1):
-            division(budget, purpose, 1)
+            division(budget, purpose, time, exp, 1)
             #components filtering call
         elif(res[0]==2):
-            division(budget, purpose, 2)
+            division(budget, purpose, time, exp, 2)
         elif(res[0]==3):
-            division(budget, purpose, 3)
+            division(budget, purpose, time, exp, 3)
             #peripheries filtering call
     elif(len(res) == 2):
-        division(budget,purpose,3)
-    
-    
+        division(budget, purpose, time, exp, 3)
 
 
-def division(budget, purpose, filter):
+
+
+def division(budget, purpose, time, exp, filter):
     relparts = []
     current_cost = 0
     if purpose == 1:
@@ -148,14 +149,16 @@ def division(budget, purpose, filter):
         controlledvocabulary["PC Peripheries"][3]: [minmou, maxmou]
     }
     if(filter == 3):
-        filterloader(all_data, all_items, relparts)
+        filterloader(all_data, all_items, purpose, time, exp, relparts)
     elif(filter == 1):
         #load components only results
-        filterloader(components,comp_items, relparts)
+        filterloader(components, comp_items, purpose, time, exp, relparts)
     elif(filter == 2):
-        filterloader(peripheries,per_items, relparts)
-                    
-def print_parts(relparts, items):
+        filterloader(peripheries, per_items, purpose, time, exp, relparts)
+
+def print_parts(relparts, items, purpose, time, exp):
+    recommendation = ml.main(items, purpose, time, exp, all_data)
+    count = 0
     if len(relparts) != 0:
         print("(ღ˘◡˘ღ) We recommend the following parts:")
 
@@ -167,13 +170,15 @@ def print_parts(relparts, items):
             if len(item) == 0:
                 print("We don't have that part right now")
             else:
+                print("{} | Price: GB£{}".format(recommendation[count][0], recommendation[count][1]))
                 for i in item:
                     # print(i)
                     print(i.brand, i.model, "|" + " Price: ", i.price)
+            count+=1
     return items
 
 
-def filterloader(data, items, relparts):
+def filterloader(data, items, purpose, time, exp, relparts):
     for key in data:
         added = 0
         counter = 0
@@ -185,7 +190,7 @@ def filterloader(data, items, relparts):
             # print(items[key][0])
             # print(i.price.amount)
             # print(items[key][1])
-            try:    
+            try:
                 if items[key][0] < i.price.amount < items[key][1] and counter < 6:
                     #print(i)
                     relparts[index].append(i)
@@ -194,5 +199,5 @@ def filterloader(data, items, relparts):
             except IndexError:
                 print("surely not")
                 continue
-    print_parts(relparts, items) 
+    print_parts(relparts, items, purpose, time, exp)
 User()
