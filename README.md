@@ -21,3 +21,8 @@ Python Version: 3.8
 Bruno Mila Ruiz De Apodaca - milaruizdeapodacab@cardiff.ac.uk // c1932063
 IDE used: Visual Studio Code
 Python Version: 3.8
+
+Supported Systems:
+
+Windows 10
+Ubuntu Linux
