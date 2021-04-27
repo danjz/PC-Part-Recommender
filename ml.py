@@ -298,33 +298,5 @@ def main(items, purpose, time, exp, all_data):
     keyboard_prediction = predicts_class(keyboard_dataset, keyboard_row, 3)
     mouse_prediction = predicts_class(mouse_dataset, mouse_row, 3)
 
-    # print("Expected cpu: GB£{}, Got: GB£{} ".format(cpu_row[0], cpu_prediction))
-    # print("Expected case: GB£{}, Got: GB£{} ".format(case_row[0], case_prediction))
-    # print("Expected cpu_cooler: GB£{}, Got: GB£{} ".format(cpu_cooler_row[0], cpu_cooler_prediction))
-    # print("Expected video_card: GB£{}, Got: GB£{} ".format(video_card_row[0], video_card_prediction))
-    # print("Expected motherboard: GB£{}, Got: GB£{} ".format(motherboard_row[0], motherboard_prediction))
-    # print("Expected memory: GB£{}, Got: GB£{} ".format(memory_row[0], memory_prediction))
-    # print("Expected internal_hard_drive: GB£{}, Got: GB£{} ".format(internal_hard_drive_row[0], internal_hard_drive_prediction))
-    # print("Expected wireless_network_card: GB£{}, Got: GB£{} ".format(wireless_network_card_row[0], wireless_network_card_prediction))
-    # print("Expected power_supply: GB£{}, Got: GB£{} ".format(power_supply_row[0], power_supply_prediction))
-    # print("Expected monitor: GB£{}, Got: GB£{} ".format(monitor_row[0], monitor_prediction))
-    # print("Expected keyboard: GB£{}, Got: GB£{} ".format(keyboard_row[0], keyboard_prediction))
-    # print("Expected mouse: GB£{}, Got: GB£{} ".format(mouse_row[0], mouse_prediction))
-    #
-    # total = round(float(cpu_prediction[0]) +
-    #               float(case_prediction[0]) +
-    #               float(cpu_cooler_prediction[0]) +
-    #               float(video_card_prediction[0]) +
-    #               float(motherboard_prediction[0]) +
-    #               float(memory_prediction[0]) +
-    #               float(internal_hard_drive_prediction[0]) +
-    #               float(wireless_network_card_prediction[0]) +
-    #               float(power_supply_prediction[0]) +
-    #               float(monitor_prediction[0]) +
-    #               float(keyboard_prediction[0]) +
-    #               float(mouse_prediction[0]), 2)
-    #
-    # print('Total: GB£{}'.format(total))
-
     recommendation = [cpu_prediction, case_prediction, cpu_cooler_prediction, video_card_prediction, motherboard_prediction, memory_prediction, internal_hard_drive_prediction, wireless_network_card_prediction, power_supply_prediction, monitor_prediction, keyboard_prediction, mouse_prediction]
     return recommendation
