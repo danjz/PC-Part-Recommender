@@ -63,8 +63,11 @@ def handle_api_data(all_data):
                     dataset.append(None)
                     # time of use
                     if part.decibels != None:
-                        if part.decibels.max != None and (part.decibels.max < 30 or part.decibels.default < 30):
-                            dataset.append(1)
+                        if part.decibels.max != None and part.decibels.default != None:
+                            if (part.decibels.max < 30 or part.decibels.default < 30):
+                                dataset.append(1)
+                            else:
+                                dataset.append(0)
                         else:
                             dataset.append(0)
                     else:
