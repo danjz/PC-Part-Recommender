@@ -3,6 +3,7 @@ from controlledvocabulary import controlledvocabulary
 import cgi
 from art import *
 import ml
+import Exporter
 
 # api: https://github.com/JonathanVusich/pcpartpicker/
 form = cgi.FieldStorage()
@@ -161,7 +162,8 @@ def print_parts(relparts, items, purpose, time, exp):
     count = 0
     if len(relparts) != 0:
         print("(ღ˘◡˘ღ) We recommend the following parts:")
-
+        
+        num_of_items = 0
         for item in relparts:
             index = relparts.index(item)
             print("\n")
@@ -172,9 +174,20 @@ def print_parts(relparts, items, purpose, time, exp):
             else:
                 print("{} | Price: GB£{}".format(recommendation[count][0], recommendation[count][1]))
                 for i in item:
+                    num_of_items = num_of_items + 1
                     # print(i)
                     print(i.brand, i.model, "|" + " Price: ", i.price)
             count+=1
+            
+    export = input("\n\nType HTML to export output to an HTML file or type JSON to export output to a JSON file"
+                   " or type anything else to exit")
+    if export.lower() == 'html':
+        Exporter.export_html(relparts, items, num_of_items)
+        print("Exported output to data.html")
+    elif export.lower() == 'json':
+        Exporter.export_json(relparts, items, num_of_items)
+        print("Exported output to data.json")
+        
     return items
 
 
