@@ -261,7 +261,7 @@ def predicts_class(train, test_row, num):
     return prediction
 
 
-def main(items, purpose, time, exp, all_data):
+def main(items, purpose, time, exp, all_data, filter):
 
     cpu_dataset, case_dataset, cpu_cooler_dataset, video_card_dataset, motherboard_dataset, memory_dataset, internal_hard_drive_dataset, wireless_network_card_dataset, power_supply_dataset, monitor_dataset, keyboard_dataset, mouse_dataset = handle_api_data(all_data)
 
@@ -274,31 +274,69 @@ def main(items, purpose, time, exp, all_data):
         time = 1
     else:
         time = 0
-    cpu_row = [str(items['cpu'][0] + items['cpu'][1]), purpose, None, None]
-    case_row = [str(items['case'][0] + items['case'][1]), None, None, None]
-    cpu_cooler_row = [str(items['cpu-cooler'][0] + items['cpu-cooler'][1]), None, time, None]
-    video_card_row = [str(items['video-card'][0] + items['video-card'][1]), purpose, None, None]
-    motherboard_row = [str(items['motherboard'][0] + items['motherboard'][1]), purpose, None, None]
-    memory_row = [str(items['memory'][0] + items['memory'][1]), purpose, None, None]
-    internal_hard_drive_row = [str(items['internal-hard-drive'][0] + items['internal-hard-drive'][1]), purpose, None, None]
-    wireless_network_card_row = [str(items['wireless-network-card'][0] + items['wireless-network-card'][1]), None, None, None]
-    power_supply_row = [str(items['power-supply'][0] + items['power-supply'][1]), None, None, None]
-    monitor_row = [str(items['monitor'][0] + items['monitor'][1]), None, None, None]
-    keyboard_row = [str(items['keyboard'][0] + items['keyboard'][1]), None, time, None]
-    mouse_row = [str(items['mouse'][0] + items['mouse'][1]), purpose, None, None]
 
-    cpu_prediction = predicts_class(cpu_dataset, cpu_row, 3)
-    case_prediction = predicts_class(case_dataset, case_row, 3)
-    cpu_cooler_prediction = predicts_class(cpu_cooler_dataset, cpu_cooler_row, 3)
-    video_card_prediction = predicts_class(video_card_dataset, video_card_row, 3)
-    motherboard_prediction = predicts_class(motherboard_dataset, motherboard_row, 3)
-    memory_prediction = predicts_class(memory_dataset, memory_row, 3)
-    internal_hard_drive_prediction = predicts_class(internal_hard_drive_dataset, internal_hard_drive_row, 3)
-    wireless_network_card_prediction = predicts_class(wireless_network_card_dataset, wireless_network_card_row, 3)
-    power_supply_prediction = predicts_class(power_supply_dataset, power_supply_row, 3)
-    monitor_prediction = predicts_class(monitor_dataset, monitor_row, 3)
-    keyboard_prediction = predicts_class(keyboard_dataset, keyboard_row, 3)
-    mouse_prediction = predicts_class(mouse_dataset, mouse_row, 3)
+    if filter == 3:
+        cpu_row = [str(items['cpu'][0] + items['cpu'][1]), purpose, None, None]
+        case_row = [str(items['case'][0] + items['case'][1]), None, None, None]
+        cpu_cooler_row = [str(items['cpu-cooler'][0] + items['cpu-cooler'][1]), None, time, None]
+        video_card_row = [str(items['video-card'][0] + items['video-card'][1]), purpose, None, None]
+        motherboard_row = [str(items['motherboard'][0] + items['motherboard'][1]), purpose, None, None]
+        memory_row = [str(items['memory'][0] + items['memory'][1]), purpose, None, None]
+        internal_hard_drive_row = [str(items['internal-hard-drive'][0] + items['internal-hard-drive'][1]), purpose, None, None]
+        wireless_network_card_row = [str(items['wireless-network-card'][0] + items['wireless-network-card'][1]), None, None, None]
+        power_supply_row = [str(items['power-supply'][0] + items['power-supply'][1]), None, None, None]
+        monitor_row = [str(items['monitor'][0] + items['monitor'][1]), None, None, None]
+        keyboard_row = [str(items['keyboard'][0] + items['keyboard'][1]), None, time, None]
+        mouse_row = [str(items['mouse'][0] + items['mouse'][1]), purpose, None, None]
 
-    recommendation = [cpu_prediction, case_prediction, cpu_cooler_prediction, video_card_prediction, motherboard_prediction, memory_prediction, internal_hard_drive_prediction, wireless_network_card_prediction, power_supply_prediction, monitor_prediction, keyboard_prediction, mouse_prediction]
+        cpu_prediction = predicts_class(cpu_dataset, cpu_row, 3)
+        case_prediction = predicts_class(case_dataset, case_row, 3)
+        cpu_cooler_prediction = predicts_class(cpu_cooler_dataset, cpu_cooler_row, 3)
+        video_card_prediction = predicts_class(video_card_dataset, video_card_row, 3)
+        motherboard_prediction = predicts_class(motherboard_dataset, motherboard_row, 3)
+        memory_prediction = predicts_class(memory_dataset, memory_row, 3)
+        internal_hard_drive_prediction = predicts_class(internal_hard_drive_dataset, internal_hard_drive_row, 3)
+        wireless_network_card_prediction = predicts_class(wireless_network_card_dataset, wireless_network_card_row, 3)
+        power_supply_prediction = predicts_class(power_supply_dataset, power_supply_row, 3)
+        monitor_prediction = predicts_class(monitor_dataset, monitor_row, 3)
+        keyboard_prediction = predicts_class(keyboard_dataset, keyboard_row, 3)
+        mouse_prediction = predicts_class(mouse_dataset, mouse_row, 3)
+
+        recommendation = [cpu_prediction, case_prediction, cpu_cooler_prediction, video_card_prediction, motherboard_prediction, memory_prediction, internal_hard_drive_prediction, wireless_network_card_prediction, power_supply_prediction, monitor_prediction, keyboard_prediction, mouse_prediction]
+
+    elif filter == 1:
+        cpu_row = [str(items['cpu'][0] + items['cpu'][1]), purpose, None, None]
+        cpu_cooler_row = [str(items['cpu-cooler'][0] + items['cpu-cooler'][1]), None, time, None]
+        video_card_row = [str(items['video-card'][0] + items['video-card'][1]), purpose, None, None]
+        motherboard_row = [str(items['motherboard'][0] + items['motherboard'][1]), purpose, None, None]
+        memory_row = [str(items['memory'][0] + items['memory'][1]), purpose, None, None]
+        internal_hard_drive_row = [str(items['internal-hard-drive'][0] + items['internal-hard-drive'][1]), purpose, None, None]
+        wireless_network_card_row = [str(items['wireless-network-card'][0] + items['wireless-network-card'][1]), None, None, None]
+        power_supply_row = [str(items['power-supply'][0] + items['power-supply'][1]), None, None, None]
+
+
+        cpu_prediction = predicts_class(cpu_dataset, cpu_row, 3)
+        cpu_cooler_prediction = predicts_class(cpu_cooler_dataset, cpu_cooler_row, 3)
+        video_card_prediction = predicts_class(video_card_dataset, video_card_row, 3)
+        motherboard_prediction = predicts_class(motherboard_dataset, motherboard_row, 3)
+        memory_prediction = predicts_class(memory_dataset, memory_row, 3)
+        internal_hard_drive_prediction = predicts_class(internal_hard_drive_dataset, internal_hard_drive_row, 3)
+        wireless_network_card_prediction = predicts_class(wireless_network_card_dataset, wireless_network_card_row, 3)
+        power_supply_prediction = predicts_class(power_supply_dataset, power_supply_row, 3)
+
+        recommendation = [cpu_prediction, cpu_cooler_prediction, video_card_prediction, motherboard_prediction, memory_prediction, internal_hard_drive_prediction, wireless_network_card_prediction, power_supply_prediction]
+
+    elif filter == 2:
+        case_row = [str(items['case'][0] + items['case'][1]), None, None, None]
+        monitor_row = [str(items['monitor'][0] + items['monitor'][1]), None, None, None]
+        keyboard_row = [str(items['keyboard'][0] + items['keyboard'][1]), None, time, None]
+        mouse_row = [str(items['mouse'][0] + items['mouse'][1]), purpose, None, None]
+
+        case_prediction = predicts_class(case_dataset, case_row, 3)
+        monitor_prediction = predicts_class(monitor_dataset, monitor_row, 3)
+        keyboard_prediction = predicts_class(keyboard_dataset, keyboard_row, 3)
+        mouse_prediction = predicts_class(mouse_dataset, mouse_row, 3)
+
+        recommendation = [case_prediction, monitor_prediction, keyboard_prediction, mouse_prediction]
+
     return recommendation

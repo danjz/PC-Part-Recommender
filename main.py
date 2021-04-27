@@ -39,9 +39,9 @@ def User():
                     print(art_7)
                     budget = int(input("Please enter your budget (£): "))
         # Must update division - 'time' and 'exp' are not taken into consideration atm must update but not sure expression<---
-                    time = input("Do you mainly play at night (n) r during the day (d)")
-                    exp = input("Are you buying PC parts for the first time (y/n)")
-                    filters = input("Would you like to filter your search? (y/n)") #start of controlled vocab integration
+                    time = input("Do you mainly play at night (n) r during the day (d)\n")
+                    exp = input("Are you buying PC parts for the first time (y/n)\n")
+                    filters = input("Would you like to filter your search? (y/n)\n") #start of controlled vocab integration
                     if (filters == 'y'):
                         filter(budget, purpose, time, exp)
                     else:
@@ -150,19 +150,19 @@ def division(budget, purpose, time, exp, filter):
         controlledvocabulary["PC Peripheries"][3]: [minmou, maxmou]
     }
     if(filter == 3):
-        filterloader(all_data, all_items, purpose, time, exp, relparts)
+        filterloader(all_data, all_items, purpose, time, exp, relparts, 3)
     elif(filter == 1):
         #load components only results
-        filterloader(components, comp_items, purpose, time, exp, relparts)
+        filterloader(components, comp_items, purpose, time, exp, relparts, 1)
     elif(filter == 2):
-        filterloader(peripheries, per_items, purpose, time, exp, relparts)
+        filterloader(peripheries, per_items, purpose, time, exp, relparts, 2)
 
-def print_parts(relparts, items, purpose, time, exp):
-    recommendation = ml.main(items, purpose, time, exp, all_data)
+def print_parts(relparts, items, purpose, time, exp, filter):
+    recommendation = ml.main(items, purpose, time, exp, all_data, filter)
     count = 0
     if len(relparts) != 0:
         print("(ღ˘◡˘ღ) We recommend the following parts:")
-        
+
         num_of_items = 0
         for item in relparts:
             index = relparts.index(item)
@@ -178,20 +178,20 @@ def print_parts(relparts, items, purpose, time, exp):
                     # print(i)
                     print(i.brand, i.model, "|" + " Price: ", i.price)
             count+=1
-            
+
     export = input("\n\nType HTML to export output to an HTML file or type JSON to export output to a JSON file"
-                   " or type anything else to exit")
+                   " or type anything else to exit\n")
     if export.lower() == 'html':
         Exporter.export_html(relparts, items, num_of_items)
         print("Exported output to data.html")
     elif export.lower() == 'json':
         Exporter.export_json(relparts, items, num_of_items)
         print("Exported output to data.json")
-        
+
     return items
 
 
-def filterloader(data, items, purpose, time, exp, relparts):
+def filterloader(data, items, purpose, time, exp, relparts, filter):
     for key in data:
         added = 0
         counter = 0
@@ -212,5 +212,5 @@ def filterloader(data, items, purpose, time, exp, relparts):
             except IndexError:
                 print("surely not")
                 continue
-    print_parts(relparts, items, purpose, time, exp)
+    print_parts(relparts, items, purpose, time, exp, filter)
 User()
