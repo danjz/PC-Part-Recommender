@@ -24,5 +24,5 @@ Python Version: 3.8
 
 Supported Systems:
 
-Windows 10
-Ubuntu Linux
+Windows 10,
+Ubuntu Linux 20
