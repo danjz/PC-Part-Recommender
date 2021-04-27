@@ -7,7 +7,7 @@ IDE used: PyCharm
 Python Version: 3.8 
 
 Tito Thomas - thomasoo@cardiff.ac.uk
-IDE used: 
+IDE used: Visual Studio Code
 Python Version: 3.8
 
 Salman Linjawi - linjawis@cardiff.ac.uk //  c1983692
