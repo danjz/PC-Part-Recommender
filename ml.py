@@ -3,7 +3,6 @@ from math import sqrt
 import pandas as pd
 import csv
 import numpy
-# from main import *
 
 
 
@@ -64,10 +63,10 @@ def handle_api_data(all_data):
                     dataset.append(None)
                     # time of use
                     if part.decibels != None:
-                        if part.decibels.max != None:
-                            dataset.append(part.decibels.max)
+                        if part.decibels.max != None and (part.decibels.max < 30 or part.decibels.default < 30):
+                            dataset.append(1)
                         else:
-                            dataset.append(part.decibels.default)
+                            dataset.append(0)
                     else:
                         pass
                     # experience would have no impact on the cpu cooler
