@@ -6,7 +6,7 @@ Dan Zwirek - zwirekd@cardiff.ac.uk // c1932334
 IDE used: PyCharm
 Python Version: 3.8 
 
-Tito Thomas - thomasoo@cardiff.ac.uk
+Tito Thomas - thomasoo@cardiff.ac.uk // c1926374
 IDE used: Visual Studio Code
 Python Version: 3.8
 
