@@ -1,3 +1,5 @@
+import json
+
 def export_html(parts, items, num_of_items):
     f = open('data.html', 'w')
 
